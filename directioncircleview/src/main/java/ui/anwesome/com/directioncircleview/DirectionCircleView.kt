@@ -77,20 +77,21 @@ class DirectionCircleView(ctx : Context) : View(ctx) {
             paint.style = Paint.Style.STROKE
             paint.color = Color.WHITE
             paint.strokeCap = Paint.Cap.ROUND
-            paint.strokeWidth = Math.min(w, h)/50
+            paint.strokeWidth = Math.min(w, h)/65
             val r : Float = Math.min(w,h)/15
             val size : Float = Math.min(w,h)/20
             val x = -r + (w/2 + r) * state.scales[0]
             val oy = h - 3 * r
-            val y = oy + (h/2 - (h - oy) * state.scales[2])
+            val y = oy + (h/2 - oy) * state.scales[2]
             canvas.save()
             canvas.translate(x, y)
-            canvas.rotate(-90f * state.scales[1] + 90f * (1 + state.dir))
+            canvas.rotate(-90f * state.scales[1] + 90f * ((1 - state.dir) * Math.abs(state.dir)))
             canvas.drawCircle(0f, 0f, r, paint)
             val path : Path = Path()
             path.moveTo( -size/2, -size/2)
             path.lineTo( -size/2, size/2)
             path.lineTo( size/2, 0f)
+            path.lineTo( -size/2, -size/2)
             canvas.drawPath(path,paint)
             canvas.restore()
         }
