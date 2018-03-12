@@ -99,4 +99,22 @@ class DirectionCircleView(ctx : Context) : View(ctx) {
             state.startUpdating(startcb)
         }
     }
+    data class Renderer(var view : DirectionCircleView) {
+        val directionCircle : DirectionCircle = DirectionCircle(0)
+        val animator = Animator(view)
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            directionCircle.draw(canvas, paint)
+            animator.animate {
+                directionCircle.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            directionCircle.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
