@@ -3,6 +3,7 @@ package ui.anwesome.com.directioncircleview
 /**
  * Created by anweshmishra on 13/03/18.
  */
+import android.app.Activity
 import android.view.*
 import android.content.*
 import android.graphics.*
@@ -116,6 +117,13 @@ class DirectionCircleView(ctx : Context) : View(ctx) {
             directionCircle.startUpdating {
                 animator.start()
             }
+        }
+    }
+    companion object {
+        fun create(activity : Activity) : DirectionCircleView {
+            val view : DirectionCircleView = DirectionCircleView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
