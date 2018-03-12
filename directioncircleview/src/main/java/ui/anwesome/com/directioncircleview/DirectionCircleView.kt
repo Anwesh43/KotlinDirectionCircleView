@@ -20,7 +20,7 @@ class DirectionCircleView(ctx : Context) : View(ctx) {
         return true
     }
     data class State(var j : Int = 0, var prevScale : Float = 0f, var dir : Float = 0f, var jDir : Int = 1) {
-        val scales : Array<Float> = arrayOf(0f, 0f, 0f, 0f)
+        val scales : Array<Float> = arrayOf(0f, 0f, 0f)
         fun update(stopcb : (Float) -> Unit) {
             scales[j] += 0.1f * dir
             if (Math.abs(scales[j] - prevScale) > 1) {
@@ -39,6 +39,31 @@ class DirectionCircleView(ctx : Context) : View(ctx) {
             if (dir == 0f) {
                 dir = 1 - 2 * prevScale
                 startcb()
+            }
+        }
+    }
+    data class Animator(var view : View, var animated : Boolean = false) {
+        fun animate(updatecb : () -> Unit) {
+            if (animated) {
+                updatecb()
+                try {
+                    Thread.sleep(50)
+                    view.invalidate()
+                }
+                catch(ex : Exception) {
+
+                }
+            }
+        }
+        fun start() {
+            if(!animated) {
+                animated = true
+                view.postInvalidate()
+            }
+        }
+        fun stop() {
+            if(animated) {
+                animated = false
             }
         }
     }
